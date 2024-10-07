@@ -9,10 +9,23 @@ import {
 } from '@zlden/react-developer-burger-ui-components';
 
 import { TBurgerIngredientUIProps } from './type';
+import { useDispatch } from 'react-redux';
+import { addIngredient } from '../../../services/reducers/ConstructorReducer';
+import { TConstructorIngredient } from '@utils-types';
 
 export const BurgerIngredientUI: FC<TBurgerIngredientUIProps> = memo(
-  ({ ingredient, count, handleAdd, locationState }) => {
+  ({ ingredient, count, locationState }) => {
     const { image, price, name, _id } = ingredient;
+    const dispatch = useDispatch();
+    const handleAdd = () => {
+      // Передаем все свойства ингредиента в экшен, если они совпадают по структуре
+      const constructorIngredient: TConstructorIngredient = {
+        ...ingredient, // Передаем все поля из TIngredient
+        id: _id
+      };
+
+      dispatch(addIngredient(constructorIngredient));
+    };
 
     return (
       <li className={styles.container}>
