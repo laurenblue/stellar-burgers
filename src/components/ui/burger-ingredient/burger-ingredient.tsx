@@ -1,4 +1,4 @@
-import React, { FC, memo } from 'react';
+import { FC, memo } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './burger-ingredient.module.css';
 
@@ -10,21 +10,30 @@ import {
 
 import { TBurgerIngredientUIProps } from './type';
 import { useDispatch } from 'react-redux';
-import { addIngredient } from '../../../services/reducers/ConstructorReducer';
+import {
+  addIngredient,
+  addBun
+} from '../../../services/reducers/ConstructorReducer';
 import { TConstructorIngredient } from '@utils-types';
 
 export const BurgerIngredientUI: FC<TBurgerIngredientUIProps> = memo(
   ({ ingredient, count, locationState }) => {
-    const { image, price, name, _id } = ingredient;
+    const { image, price, name, _id, type } = ingredient;
     const dispatch = useDispatch();
     const handleAdd = () => {
-      // Передаем все свойства ингредиента в экшен, если они совпадают по структуре
-      const constructorIngredient: TConstructorIngredient = {
-        ...ingredient, // Передаем все поля из TIngredient
-        id: _id
-      };
-
-      dispatch(addIngredient(constructorIngredient));
+      if (type === 'bun') {
+        const constructorBun: TConstructorIngredient = {
+          ...ingredient,
+          id: _id
+        };
+        dispatch(addBun(constructorBun));
+      } else {
+        const constructorIngredient: TConstructorIngredient = {
+          ...ingredient,
+          id: _id
+        };
+        dispatch(addIngredient(constructorIngredient));
+      }
     };
 
     return (
