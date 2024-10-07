@@ -5,25 +5,16 @@ import { BurgerIngredientsUI } from '../ui/burger-ingredients';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIngredients } from '../../services/reducers/RootReducer';
 
-import { RootState, AppDispatch } from 'src/services/store'; // Adjust the path
+import { RootState, AppDispatch } from 'src/services/store';
 
 export const BurgerIngredients: FC = () => {
-  const dispatch: AppDispatch = useDispatch();
-
   const ingredients = useSelector((state: RootState) => state.root.ingredients);
 
-  console.log(ingredients);
+  const buns = ingredients.filter((item: TIngredient) => item.type === 'bun');
+  const mains = ingredients.filter((item: TIngredient) => item.type === 'main');
 
-  useEffect(() => {
-    dispatch(getIngredients());
-  }, [dispatch]);
-
-  const buns = ingredients.filter((item: TIngredient) => item.type === 'buns');
-  const mains = ingredients.filter(
-    (item: TIngredient) => item.type === 'mains'
-  );
   const sauces = ingredients.filter(
-    (item: TIngredient) => item.type === 'sauces'
+    (item: TIngredient) => item.type === 'sauce'
   );
 
   const [currentTab, setCurrentTab] = useState<TTabMode>('bun');
