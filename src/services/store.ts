@@ -6,10 +6,12 @@ import {
   useDispatch as dispatchHook,
   useSelector as selectorHook
 } from 'react-redux';
+import ConstructorReducer from './reducers/ConstructorReducer';
 
 const store = configureStore({
   reducer: {
-    root: RootReducer
+    root: RootReducer,
+    constructorData: ConstructorReducer
   },
   devTools: process.env.NODE_ENV !== 'production'
 });
