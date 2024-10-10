@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { orderBurgerApi } from '@api';
 import { TOrder } from '@utils-types';
+import { resetConstructor } from './ConstructorReducer';
 export interface IOrderState {
   order: TOrder | null;
   orderRequest: boolean;
@@ -13,9 +14,10 @@ const initialState: IOrderState = {
 };
 export const createOrder = createAsyncThunk<TOrder, string[]>(
   'order/create',
-  async (ingredients: string[], { rejectWithValue }) => {
+  async (ingredients: string[], { dispatch, rejectWithValue }) => {
     try {
       const response = await orderBurgerApi(ingredients);
+      dispatch(resetConstructor());
       return response.order;
     } catch (error) {
       return rejectWithValue(error);
