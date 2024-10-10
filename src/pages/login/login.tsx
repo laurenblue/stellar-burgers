@@ -23,12 +23,17 @@ export const Login: FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = async (e: SyntheticEvent) => {
+  const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    await dispatch(loginUser({ email, password }));
-
-    const from = (location.state as LocationState)?.from?.pathname || '/';
-    navigate(from, { replace: true });
+    dispatch(loginUser({ email, password }))
+      .unwrap()
+      .then((data) => {
+        const from = (location.state as any)?.from?.pathname || '/';
+        navigate(from, { replace: true });
+      })
+      .catch((err) => {
+        console.log('err', err);
+      });
   };
 
   if (isAuthorized) {

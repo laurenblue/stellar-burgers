@@ -6,14 +6,21 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from 'src/services/store';
 import { closeModal } from '../../services/reducers/orderSlice';
 import { createOrder } from '../../services/reducers/orderSlice';
+import { useNavigate } from 'react-router-dom';
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+
   const constructorItems = useSelector(
     (state: RootState) => state.constructorData
   );
   const { orderRequest, order } = useSelector(
     (state: RootState) => state.order
   );
+  const isAuthorized = useSelector(
+    (state: RootState) => state.user.isAuthorized
+  );
+  console.log(constructorItems);
   const price = useMemo(() => {
     const bunPrice = constructorItems.bun ? constructorItems.bun.price * 2 : 0;
     const ingredientsPrice = constructorItems.ingredients.reduce(
@@ -24,6 +31,9 @@ export const BurgerConstructor: FC = () => {
   }, [constructorItems]);
 
   const onOrderClick = () => {
+    if (!isAuthorized) {
+      navigate('/login');
+    }
     if (
       constructorItems.bun &&
       constructorItems.ingredients.length > 0 &&

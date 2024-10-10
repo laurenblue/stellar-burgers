@@ -6,6 +6,7 @@ import commonStyles from '../common.module.css';
 
 import { ProfileUIProps } from './type';
 import { ProfileMenu } from '@components';
+import { SyntheticEvent } from 'react';
 
 export const ProfileUI: FC<ProfileUIProps> = ({
   formValue,
@@ -27,6 +28,24 @@ export const ProfileUI: FC<ProfileUIProps> = ({
     e.stopPropagation();
     setIsEditing((prev) => ({ ...prev, [field]: !prev[field] }));
   };
+
+  const onSubmit = (e: SyntheticEvent) => {
+    setIsEditing({
+      name: false,
+      email: false,
+      password: false
+    });
+    handleSubmit(e);
+  };
+  const onCancel = (e: SyntheticEvent) => {
+    setIsEditing({
+      name: false,
+      email: false,
+      password: false
+    });
+    handleCancel(e);
+  };
+
   return (
     <main className={`${commonStyles.container}`}>
       <div className={`mt-30 mr-15 ${styles.menu}`}>
@@ -34,7 +53,7 @@ export const ProfileUI: FC<ProfileUIProps> = ({
       </div>
       <form
         className={`mt-30 ${styles.form} ${commonStyles.form}`}
-        onSubmit={handleSubmit}
+        onSubmit={onSubmit}
       >
         <div className='pb-6'>
           <Input
@@ -87,7 +106,7 @@ export const ProfileUI: FC<ProfileUIProps> = ({
               type='secondary'
               htmlType='button'
               size='medium'
-              onClick={handleCancel}
+              onClick={onCancel}
             >
               Отменить
             </Button>
