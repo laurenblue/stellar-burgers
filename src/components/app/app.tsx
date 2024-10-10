@@ -25,10 +25,13 @@ import { getUser } from '../../services/reducers/UserSlice';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import ProtectedRoute from '../protectedRoute/ProtectedRoute';
+import { useLocation } from 'react-router-dom';
 
 const App = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const location = useLocation();
+  const backgroundLocation = location.state?.background;
   const isAuthorized = useSelector(
     (state: RootState) => state.user.isAuthorized
   );
@@ -42,7 +45,7 @@ const App = () => {
   return (
     <div className={styles.app}>
       <AppHeader />
-      <Routes>
+      <Routes location={backgroundLocation || location}>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
         <Route
@@ -88,7 +91,7 @@ const App = () => {
         </Route>
         <Route
           path='/login'
-          element={!isAuthorized ? <Navigate to='/' replace /> : <Login />}
+          element={!isAuthorized ? <Login /> : <Navigate to='/' replace />}
         />
         <Route
           path='/register'
