@@ -1,4 +1,3 @@
-// src/components/IngredientDetails.tsx
 import { FC } from 'react';
 import { Preloader } from '../ui/preloader';
 import { IngredientDetailsUI } from '../ui/ingredient-details';

@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'src/services/store';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from 'src/services/store';
-import { closeModal } from '../../services/reducers/orderSlice';
-import { createOrder } from '../../services/reducers/orderSlice';
+import { closeModal } from '../../services/reducers/OrderSlice';
+import { createOrder } from '../../services/reducers/OrderSlice';
 import { useNavigate } from 'react-router-dom';
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch<AppDispatch>();

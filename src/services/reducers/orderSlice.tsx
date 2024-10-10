@@ -7,12 +7,12 @@ export interface IOrderState {
   ordersHistory: TOrder[] | null;
   orderRequest: boolean;
   orderFailed: boolean;
-  ordersHistoryRequest: boolean; // Запрос истории заказов
-  ordersHistoryFailed: boolean; // Ошибка запроса истории заказов
+  ordersHistoryRequest: boolean;
+  ordersHistoryFailed: boolean;
 }
 const initialState: IOrderState = {
   order: null,
-  ordersHistory: null, // Изначально история заказов пустая
+  ordersHistory: null,
   orderRequest: false,
   orderFailed: false,
   ordersHistoryRequest: false,
@@ -35,7 +35,7 @@ export const fetchUserOrders = createAsyncThunk<TOrder[]>(
   'order/fetchUserOrders',
   async (_, { rejectWithValue }) => {
     try {
-      const orders = await getOrdersApi(); // Получаем заказы
+      const orders = await getOrdersApi();
       return orders;
     } catch (error) {
       return rejectWithValue(error);
@@ -43,7 +43,7 @@ export const fetchUserOrders = createAsyncThunk<TOrder[]>(
   }
 );
 
-const orderSlice = createSlice({
+const OrderSlice = createSlice({
   name: 'order',
   initialState,
   reducers: {
@@ -65,13 +65,12 @@ const orderSlice = createSlice({
         state.orderFailed = true;
         state.orderRequest = false;
       })
-      // Добавляем обработку экшенов для истории заказов
       .addCase(fetchUserOrders.pending, (state) => {
         state.ordersHistoryRequest = true;
         state.ordersHistoryFailed = false;
       })
       .addCase(fetchUserOrders.fulfilled, (state, action) => {
-        state.ordersHistory = action.payload; // Сохраняем полученные заказы
+        state.ordersHistory = action.payload;
         state.ordersHistoryRequest = false;
       })
       .addCase(fetchUserOrders.rejected, (state) => {
@@ -81,5 +80,5 @@ const orderSlice = createSlice({
   }
 });
 
-export const { closeModal } = orderSlice.actions;
-export default orderSlice.reducer;
+export const { closeModal } = OrderSlice.actions;
+export default OrderSlice.reducer;

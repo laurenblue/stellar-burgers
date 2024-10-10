@@ -9,7 +9,7 @@ import {
 import ConstructorReducer from './reducers/ConstructorReducer';
 import FeedSlice from './reducers/FeedSlice';
 import UserSlice from './reducers/UserSlice';
-import orderSlice from './reducers/orderSlice';
+import OrderSlice from './reducers/OrderSlice';
 
 const store = configureStore({
   reducer: {
@@ -17,7 +17,7 @@ const store = configureStore({
     constructorData: ConstructorReducer,
     feed: FeedSlice,
     user: UserSlice,
-    order: orderSlice
+    order: OrderSlice
   },
   devTools: process.env.NODE_ENV !== 'production'
 });

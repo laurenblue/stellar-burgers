@@ -31,7 +31,6 @@ const App = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const location = useLocation();
-  const backgroundLocation = location.state?.background;
   const isAuthorized = useSelector(
     (state: RootState) => state.user.isAuthorized
   );
@@ -45,7 +44,7 @@ const App = () => {
   return (
     <div className={styles.app}>
       <AppHeader />
-      <Routes location={backgroundLocation || location}>
+      <Routes>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
         <Route
