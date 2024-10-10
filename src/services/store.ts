@@ -8,12 +8,14 @@ import {
 } from 'react-redux';
 import ConstructorReducer from './reducers/ConstructorReducer';
 import FeedSlice from './reducers/FeedSlice';
+import UserSlice from './reducers/UserSlice';
 
 const store = configureStore({
   reducer: {
     root: RootReducer,
     constructorData: ConstructorReducer,
-    feed: FeedSlice
+    feed: FeedSlice,
+    user: UserSlice
   },
   devTools: process.env.NODE_ENV !== 'production'
 });
