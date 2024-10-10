@@ -88,7 +88,7 @@ const App = () => {
         </Route>
         <Route
           path='/login'
-          element={!isAuthorized ? <Login /> : <Navigate to='/' />}
+          element={!isAuthorized ? <Navigate to='/' replace /> : <Login />}
         />
         <Route
           path='/register'

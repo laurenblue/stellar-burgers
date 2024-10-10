@@ -9,13 +9,15 @@ import {
 import ConstructorReducer from './reducers/ConstructorReducer';
 import FeedSlice from './reducers/FeedSlice';
 import UserSlice from './reducers/UserSlice';
+import orderSlice from './reducers/orderSlice';
 
 const store = configureStore({
   reducer: {
     root: RootReducer,
     constructorData: ConstructorReducer,
     feed: FeedSlice,
-    user: UserSlice
+    user: UserSlice,
+    order: orderSlice
   },
   devTools: process.env.NODE_ENV !== 'production'
 });

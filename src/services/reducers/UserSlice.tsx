@@ -8,7 +8,7 @@ import {
   updateUserApi,
   logoutApi
 } from '@api';
-import { deleteCookie, setCookie } from '../../utils/cookie'; // Импортируем функцию для удаления куки
+import { deleteCookie, setCookie } from '../../utils/cookie';
 import { TUser } from '@utils-types';
 
 export interface IUserState {
@@ -33,7 +33,7 @@ export const registerUser = createAsyncThunk<TUserResponse, TRegisterData>(
   'user/register',
   async (data) => registerUserApi(data)
 );
-export const loginUser = createAsyncThunk(
+export const loginUser = createAsyncThunk<TUser, Omit<TRegisterData, 'name'>>(
   'user/loginUser',
   async ({ email, password }: Omit<TRegisterData, 'name'>) => {
     const data = await loginUserApi({ email, password });
@@ -82,7 +82,7 @@ const userSlice = createSlice({
       .addCase(getUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
-        state.isAuthorized = true;
+        state.isAuthorized = !!action.payload.user;
       })
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
