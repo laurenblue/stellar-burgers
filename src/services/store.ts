@@ -7,11 +7,13 @@ import {
   useSelector as selectorHook
 } from 'react-redux';
 import ConstructorReducer from './reducers/ConstructorReducer';
+import FeedSlice from './reducers/FeedSlice';
 
 const store = configureStore({
   reducer: {
     root: RootReducer,
-    constructorData: ConstructorReducer
+    constructorData: ConstructorReducer,
+    feed: FeedSlice
   },
   devTools: process.env.NODE_ENV !== 'production'
 });
