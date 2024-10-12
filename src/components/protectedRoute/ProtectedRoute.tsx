@@ -10,7 +10,7 @@ const ProtectedRoute: React.FC = () => {
   }
 
   if (!isAuthorized) {
-    return <Navigate to='/login' replace />;
+    return <Navigate to='/login' state={{ from: location }} />;
   }
 
   return <Outlet />;

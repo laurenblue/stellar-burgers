@@ -31,20 +31,45 @@ const App = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const background = location.state?.background;
   const isAuthorized = useSelector((state) => state.user.isAuthorized);
 
   useEffect(() => {
     dispatch(getIngredients());
-    dispatch(getFeeds());
     dispatch(getUser());
   }, [dispatch]);
 
   return (
     <div className={styles.app}>
       <AppHeader />
-      <Routes>
+      <Routes location={background || location}>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path='/profile' element={<Profile />} />
+          <Route path='/profile/orders' element={<ProfileOrders />} />
+        </Route>
+        <Route
+          path='/login'
+          element={!isAuthorized ? <Login /> : <Navigate to='/' replace />}
+        />
+        <Route
+          path='/register'
+          element={!isAuthorized ? <Register /> : <Navigate to='/' />}
+        />
+        <Route
+          path='/forgot-password'
+          element={!isAuthorized ? <ForgotPassword /> : <Navigate to='/' />}
+        />
+        <Route
+          path='/reset-password'
+          element={!isAuthorized ? <ResetPassword /> : <Navigate to='/' />}
+        />
+        <Route path='*' element={<NotFound404 />} />
+      </Routes>
+
+      {/* Modals are displayed outside the main Routes */}
+      <Routes>
         <Route
           path='/feed/:number'
           element={
@@ -71,38 +96,17 @@ const App = () => {
             </Modal>
           }
         />
-        <Route element={<ProtectedRoute />}>
-          <Route path='/profile' element={<Profile />} />
-          <Route path='/profile/orders' element={<ProfileOrders />} />
-          <Route
-            path='/profile/orders/:number'
-            element={
-              <Modal
-                title='Информация о заказе'
-                onClose={() => navigate('/profile/orders')}
-              >
-                <OrderInfo />
-              </Modal>
-            }
-          />
-        </Route>
         <Route
-          path='/login'
-          element={!isAuthorized ? <Login /> : <Navigate to='/' replace />}
+          path='/profile/orders/:number'
+          element={
+            <Modal
+              title='Информация о заказе'
+              onClose={() => navigate('/profile/orders')}
+            >
+              <OrderInfo />
+            </Modal>
+          }
         />
-        <Route
-          path='/register'
-          element={!isAuthorized ? <Register /> : <Navigate to='/' />}
-        />
-        <Route
-          path='/forgot-password'
-          element={!isAuthorized ? <ForgotPassword /> : <Navigate to='/' />}
-        />
-        <Route
-          path='/reset-password'
-          element={!isAuthorized ? <ResetPassword /> : <Navigate to='/' />}
-        />
-        <Route path='*' element={<NotFound404 />} />
       </Routes>
     </div>
   );
