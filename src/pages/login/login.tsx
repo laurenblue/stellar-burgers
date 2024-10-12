@@ -9,12 +9,6 @@ import { Navigate } from 'react-router-dom';
 
 const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-interface LocationState {
-  from?: {
-    pathname: string;
-  };
-}
-
 export const Login: FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
@@ -28,7 +22,7 @@ export const Login: FC = () => {
     e.preventDefault();
     dispatch(loginUser({ email, password }))
       .unwrap()
-      .then((data) => {
+      .then(() => {
         const from = (location.state as any)?.from?.pathname || '/';
         navigate(from, { replace: true });
       })
