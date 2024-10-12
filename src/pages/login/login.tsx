@@ -1,6 +1,7 @@
 import { FC, SyntheticEvent, useState } from 'react';
 import { LoginUI } from '@ui-pages';
-import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux';
+import { TypedUseSelectorHook } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/store';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { loginUser } from '../../services/reducers/UserSlice';
 import { RootState, AppDispatch } from '../../services/store';

@@ -3,19 +3,17 @@ import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/services/store';
+import { useSelector } from '../../services/store';
 
 export const OrderInfo: FC = () => {
   const { number } = useParams();
-  const orderData = useSelector((state: RootState) =>
+  const orderData = useSelector((state) =>
     state.feed.orders.find((item) => item.number === Number(number))
   );
   const ingredients: TIngredient[] = useSelector(
-    (state: RootState) => state.root.ingredients
+    (state) => state.root.ingredients
   );
 
-  /* Готовим данные для отображения */
   const orderInfo = useMemo(() => {
     if (!orderData || !ingredients.length) return null;
 

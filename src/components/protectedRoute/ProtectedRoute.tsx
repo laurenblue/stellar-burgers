@@ -1,11 +1,9 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useSelector } from '../../services/store';
-import { RootState } from '../../services/store';
+
 const ProtectedRoute: React.FC = () => {
-  const { isAuthorized, loading } = useSelector(
-    (state: RootState) => state.user
-  );
+  const { isAuthorized, loading } = useSelector((state) => state.user);
 
   if (loading) {
     return <div>Loading...</div>;

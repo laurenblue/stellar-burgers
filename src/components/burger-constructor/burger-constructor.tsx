@@ -1,25 +1,18 @@
 import { FC, useMemo } from 'react';
 import { BurgerConstructorUI } from '@ui';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/store';
 import { RootState } from 'src/services/store';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from 'src/services/store';
+import { useDispatch } from '../../services/store';
 import { closeModal, createOrder } from '../../services/reducers/OrderSlice';
 import { useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const constructorItems = useSelector(
-    (state: RootState) => state.constructorData
-  );
-  const { orderRequest, order } = useSelector(
-    (state: RootState) => state.order
-  );
-  const isAuthorized = useSelector(
-    (state: RootState) => state.user.isAuthorized
-  );
+  const constructorItems = useSelector((state) => state.constructorData);
+  const { orderRequest, order } = useSelector((state) => state.order);
+  const isAuthorized = useSelector((state) => state.user.isAuthorized);
   console.log(constructorItems);
   const price = useMemo(() => {
     const bunPrice = constructorItems.bun ? constructorItems.bun.price * 2 : 0;

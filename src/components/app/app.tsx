@@ -16,24 +16,22 @@ import { AppHeader } from '@components';
 import { IngredientDetails } from '@components';
 import { Modal } from '@components';
 import { Route, Routes, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/store';
 import { useEffect } from 'react';
 import { getIngredients } from '../../services/reducers/RootReducer';
-import { AppDispatch, RootState } from '../../services/store';
+import { RootState } from '../../services/store';
 import { getFeeds } from '../../services/reducers/FeedSlice';
 import { getUser } from '../../services/reducers/UserSlice';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/store';
 import { Navigate } from 'react-router-dom';
 import ProtectedRoute from '../protectedRoute/ProtectedRoute';
 import { useLocation } from 'react-router-dom';
 
 const App = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const isAuthorized = useSelector(
-    (state: RootState) => state.user.isAuthorized
-  );
+  const isAuthorized = useSelector((state) => state.user.isAuthorized);
 
   useEffect(() => {
     dispatch(getIngredients());

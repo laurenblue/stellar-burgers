@@ -9,7 +9,7 @@ import {
 } from '@zlden/react-developer-burger-ui-components';
 
 import { TBurgerIngredientUIProps } from './type';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../../services/store';
 import {
   addIngredient,
   addBun

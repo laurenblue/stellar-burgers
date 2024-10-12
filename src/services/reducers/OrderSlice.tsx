@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { orderBurgerApi, getOrdersApi } from '@api';
 import { TOrder } from '@utils-types';
 import { resetConstructor } from './ConstructorReducer';
+
 export interface IOrderState {
   order: TOrder | null;
   ordersHistory: TOrder[] | null;
@@ -10,6 +11,7 @@ export interface IOrderState {
   ordersHistoryRequest: boolean;
   ordersHistoryFailed: boolean;
 }
+
 const initialState: IOrderState = {
   order: null,
   ordersHistory: null,
@@ -18,28 +20,21 @@ const initialState: IOrderState = {
   ordersHistoryRequest: false,
   ordersHistoryFailed: false
 };
+
 export const createOrder = createAsyncThunk<TOrder, string[]>(
   'order/create',
-  async (ingredients: string[], { dispatch, rejectWithValue }) => {
-    try {
-      const response = await orderBurgerApi(ingredients);
-      dispatch(resetConstructor());
-      return response.order;
-    } catch (error) {
-      return rejectWithValue(error);
-    }
+  async (ingredients: string[], { dispatch }) => {
+    const response = await orderBurgerApi(ingredients);
+    dispatch(resetConstructor());
+    return response.order;
   }
 );
 
 export const fetchUserOrders = createAsyncThunk<TOrder[]>(
   'order/fetchUserOrders',
-  async (_, { rejectWithValue }) => {
-    try {
-      const orders = await getOrdersApi();
-      return orders;
-    } catch (error) {
-      return rejectWithValue(error);
-    }
+  async () => {
+    const orders = await getOrdersApi();
+    return orders;
   }
 );
 
