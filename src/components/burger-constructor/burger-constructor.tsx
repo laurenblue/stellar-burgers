@@ -4,6 +4,7 @@ import { useSelector } from '../../services/store';
 import { useDispatch } from '../../services/store';
 import { closeModal, createOrder } from '../../services/reducers/OrderSlice';
 import { useNavigate } from 'react-router-dom';
+import { getCookie } from '../../utils/cookie';
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
@@ -25,7 +26,16 @@ export const BurgerConstructor: FC = () => {
   const onOrderClick = () => {
     if (!isAuthorized) {
       navigate('/login');
+      return; // Останавливаем выполнение функции, если пользователь не авторизован
     }
+
+    const token = getCookie('accessToken');
+    if (!token) {
+      console.error('Токен отсутствует, необходимо авторизоваться.');
+      navigate('/login');
+      return;
+    }
+
     if (
       constructorItems.bun &&
       constructorItems.ingredients.length > 0 &&
@@ -36,6 +46,7 @@ export const BurgerConstructor: FC = () => {
         ...constructorItems.ingredients.map((item) => item._id),
         constructorItems.bun._id
       ];
+
       dispatch(createOrder(ingredientIds))
         .unwrap()
         .catch((error) => {
@@ -45,6 +56,7 @@ export const BurgerConstructor: FC = () => {
       alert('Выберите булки и начинки для оформления заказа');
     }
   };
+
   const closeOrderModal = () => {
     dispatch(closeModal());
   };
