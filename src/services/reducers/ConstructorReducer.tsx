@@ -29,9 +29,9 @@ const constructorSlice = createSlice({
         return { payload: { ...ingredient, id } };
       }
     },
-    removeIngredient(state, action: PayloadAction<{ _id: string }>) {
+    removeIngredient(state, action: PayloadAction<{ id: string }>) {
       state.ingredients = state.ingredients.filter(
-        (ingredient) => ingredient._id !== action.payload._id
+        (ingredient) => ingredient.id !== action.payload.id
       );
     },
     clearConstructor(state) {

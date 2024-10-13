@@ -32,7 +32,9 @@ const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const background = location.state?.background;
-  const isAuthorized = useSelector((state) => state.user.isAuthorized);
+  const isAuthorized = useSelector(
+    (state: RootState) => state.user.isAuthorized
+  );
 
   useEffect(() => {
     dispatch(getIngredients());
@@ -67,47 +69,47 @@ const App = () => {
         />
         <Route path='*' element={<NotFound404 />} />
       </Routes>
-
-      {/* Modals are displayed outside the main Routes */}
-      <Routes>
-        <Route
-          path='/feed/:number'
-          element={
-            <Modal
-              title='Лента заказов'
-              onClose={() => {
-                navigate('/feed');
-              }}
-            >
-              <OrderInfo />
-            </Modal>
-          }
-        />
-        <Route
-          path='/ingredients/:id'
-          element={
-            <Modal
-              title='Детали ингредиента'
-              onClose={() => {
-                navigate('/');
-              }}
-            >
-              <IngredientDetails />
-            </Modal>
-          }
-        />
-        <Route
-          path='/profile/orders/:number'
-          element={
-            <Modal
-              title='Информация о заказе'
-              onClose={() => navigate('/profile/orders')}
-            >
-              <OrderInfo />
-            </Modal>
-          }
-        />
-      </Routes>
+      {background && (
+        <Routes>
+          <Route
+            path='/feed/:number'
+            element={
+              <Modal
+                title='Лента заказов'
+                onClose={() => {
+                  navigate('/feed');
+                }}
+              >
+                <OrderInfo />
+              </Modal>
+            }
+          />
+          <Route
+            path='/ingredients/:id'
+            element={
+              <Modal
+                title='Детали ингредиента'
+                onClose={() => {
+                  navigate('/');
+                }}
+              >
+                <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path='/profile/orders/:number'
+            element={
+              <Modal
+                title='Информация о заказе'
+                onClose={() => navigate('/profile/orders')}
+              >
+                <OrderInfo />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
     </div>
   );
 };
