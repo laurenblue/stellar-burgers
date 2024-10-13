@@ -1,7 +1,6 @@
 import { FC, useMemo } from 'react';
 import { BurgerConstructorUI } from '@ui';
 import { useSelector } from '../../services/store';
-import { RootState } from 'src/services/store';
 import { useDispatch } from '../../services/store';
 import { closeModal, createOrder } from '../../services/reducers/OrderSlice';
 import { useNavigate } from 'react-router-dom';

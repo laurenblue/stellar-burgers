@@ -4,8 +4,6 @@ import { TIngredient, TTabMode } from '@utils-types';
 import { BurgerIngredientsUI } from '../ui/burger-ingredients';
 import { useSelector } from '../../services/store';
 
-import { RootState } from 'src/services/store';
-
 export const BurgerIngredients: FC = () => {
   const ingredients = useSelector((state) => state.root.ingredients);
 
