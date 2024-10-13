@@ -20,7 +20,6 @@ import { useDispatch } from '../../services/store';
 import { useEffect } from 'react';
 import { getIngredients } from '../../services/reducers/RootReducer';
 import { RootState } from '../../services/store';
-import { getFeeds } from '../../services/reducers/FeedSlice';
 import { getUser } from '../../services/reducers/UserSlice';
 import { useSelector } from '../../services/store';
 import { Navigate } from 'react-router-dom';

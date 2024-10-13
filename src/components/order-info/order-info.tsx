@@ -1,19 +1,37 @@
-import { FC, useMemo } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 import { useParams } from 'react-router-dom';
-import { useSelector } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store';
+import { getFeeds } from '../../services/reducers/FeedSlice';
+import { getIngredients } from '../../services/reducers/RootReducer';
 
 export const OrderInfo: FC = () => {
   const { number } = useParams();
+  const dispatch = useDispatch();
+
+  // Получаем данные о заказе и ингредиентах из хранилища
   const orderData = useSelector((state) =>
     state.feed.orders.find((item) => item.number === Number(number))
   );
   const ingredients: TIngredient[] = useSelector(
     (state) => state.root.ingredients
   );
+  const loadingFeeds = useSelector((state) => state.feed.loading);
+  const loadingIngredients = useSelector((state) => state.root.loading);
 
+  // Загружаем заказы и ингредиенты, если их нет
+  useEffect(() => {
+    if (!orderData) {
+      dispatch(getFeeds());
+    }
+    if (!ingredients.length) {
+      dispatch(getIngredients());
+    }
+  }, [dispatch, orderData, ingredients]);
+
+  // Мемоизация данных о заказе
   const orderInfo = useMemo(() => {
     if (!orderData || !ingredients.length) return null;
 
@@ -55,7 +73,8 @@ export const OrderInfo: FC = () => {
     };
   }, [orderData, ingredients]);
 
-  if (!orderInfo) {
+  // Отображаем лоадер, пока данные загружаются
+  if (loadingFeeds || loadingIngredients || !orderInfo) {
     return <Preloader />;
   }
 
