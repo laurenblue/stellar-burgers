@@ -23,7 +23,9 @@ export const Login: FC = () => {
     dispatch(loginUser({ email, password }))
       .unwrap()
       .then(() => {
-        const from = (location.state as any)?.from?.pathname || '/';
+        // Используем путь из localStorage для перенаправления
+        const from = localStorage.getItem('redirectPath') || '/';
+        localStorage.removeItem('redirectPath'); // Очищаем сохранённый маршрут после использования
         navigate(from, { replace: true });
       })
       .catch((err) => {
@@ -31,8 +33,11 @@ export const Login: FC = () => {
       });
   };
 
+  // Если пользователь уже авторизован, перенаправляем на сохранённый маршрут
   if (isAuthorized) {
-    return <Navigate to='/' replace />;
+    const redirectPath = localStorage.getItem('redirectPath') || '/';
+    localStorage.removeItem('redirectPath');
+    return <Navigate to={redirectPath} replace />;
   }
 
   return (

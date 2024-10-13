@@ -53,7 +53,16 @@ const App = () => {
         </Route>
         <Route
           path='/login'
-          element={!isAuthorized ? <Login /> : <Navigate to='/' replace />}
+          element={
+            !isAuthorized ? (
+              <Login />
+            ) : (
+              <Navigate
+                to={localStorage.getItem('redirectPath') || '/'}
+                replace
+              />
+            )
+          }
         />
         <Route
           path='/register'
