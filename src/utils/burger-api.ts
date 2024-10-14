@@ -117,7 +117,7 @@ export const orderBurgerApi = (data: string[]) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
-      authorization: token ? `Bearer ${token}` : ''
+      authorization: token ? token : ''
     } as HeadersInit,
     body: JSON.stringify({
       ingredients: data
