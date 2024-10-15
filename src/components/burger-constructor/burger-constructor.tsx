@@ -1,43 +1,71 @@
 import { FC, useMemo } from 'react';
-import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
+import { useSelector } from '../../services/store';
+import { useDispatch } from '../../services/store';
+import { closeModal, createOrder } from '../../services/slices/OrderSlice';
+import { useNavigate } from 'react-router-dom';
+import { getCookie } from '../../utils/cookie';
 
 export const BurgerConstructor: FC = () => {
-  /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
-  const constructorItems = {
-    bun: {
-      price: 0
-    },
-    ingredients: []
-  };
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const orderRequest = false;
-
-  const orderModalData = null;
+  const constructorItems = useSelector((state) => state.constructorData);
+  const { orderRequest, order } = useSelector((state) => state.order);
+  const isAuthorized = useSelector((state) => state.user.isAuthorized);
+  console.log(constructorItems);
+  const price = useMemo(() => {
+    const bunPrice = constructorItems.bun ? constructorItems.bun.price * 2 : 0;
+    const ingredientsPrice = constructorItems.ingredients.reduce(
+      (sum, ingredient) => sum + ingredient.price,
+      0
+    );
+    return bunPrice + ingredientsPrice;
+  }, [constructorItems]);
 
   const onOrderClick = () => {
-    if (!constructorItems.bun || orderRequest) return;
+    if (!isAuthorized) {
+      navigate('/login');
+      return; // Останавливаем выполнение функции, если пользователь не авторизован
+    }
+
+    const token = getCookie('accessToken');
+    if (!token) {
+      console.error('Токен отсутствует, необходимо авторизоваться.');
+      navigate('/login');
+      return;
+    }
+
+    if (
+      constructorItems.bun &&
+      constructorItems.ingredients.length > 0 &&
+      !orderRequest
+    ) {
+      const ingredientIds = [
+        constructorItems.bun._id,
+        ...constructorItems.ingredients.map((item) => item._id),
+        constructorItems.bun._id
+      ];
+
+      dispatch(createOrder(ingredientIds))
+        .unwrap()
+        .catch((error) => {
+          console.error('Order creation failed: ', error);
+        });
+    } else {
+      alert('Выберите булки и начинки для оформления заказа');
+    }
   };
-  const closeOrderModal = () => {};
 
-  const price = useMemo(
-    () =>
-      (constructorItems.bun ? constructorItems.bun.price * 2 : 0) +
-      constructorItems.ingredients.reduce(
-        (s: number, v: TConstructorIngredient) => s + v.price,
-        0
-      ),
-    [constructorItems]
-  );
-
-  return null;
-
+  const closeOrderModal = () => {
+    dispatch(closeModal());
+  };
   return (
     <BurgerConstructorUI
       price={price}
       orderRequest={orderRequest}
       constructorItems={constructorItems}
-      orderModalData={orderModalData}
+      orderModalData={order}
       onOrderClick={onOrderClick}
       closeOrderModal={closeOrderModal}
     />
