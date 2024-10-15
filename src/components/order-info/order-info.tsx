@@ -4,8 +4,8 @@ import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from '../../services/store';
-import { getFeeds } from '../../services/reducers/FeedSlice';
-import { getIngredients } from '../../services/reducers/RootReducer';
+import { getFeeds } from '../../services/slices/FeedSlice';
+import { getIngredients } from '../../services/slices/IngredientsSlice';
 
 export const OrderInfo: FC = () => {
   const { number } = useParams();
@@ -16,10 +16,10 @@ export const OrderInfo: FC = () => {
     state.feed.orders.find((item) => item.number === Number(number))
   );
   const ingredients: TIngredient[] = useSelector(
-    (state) => state.root.ingredients
+    (state) => state.ingredients.ingredients
   );
   const loadingFeeds = useSelector((state) => state.feed.loading);
-  const loadingIngredients = useSelector((state) => state.root.loading);
+  const loadingIngredients = useSelector((state) => state.ingredients.loading);
 
   // Загружаем заказы и ингредиенты, если их нет
   useEffect(() => {

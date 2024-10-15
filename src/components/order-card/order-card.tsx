@@ -12,7 +12,7 @@ export const OrderCard: FC<OrderCardProps> = memo(({ order }) => {
   const location = useLocation();
 
   const ingredients: TIngredient[] = useSelector(
-    (state) => state.root.ingredients
+    (state) => state.ingredients.ingredients
   );
 
   const orderInfo = useMemo(() => {

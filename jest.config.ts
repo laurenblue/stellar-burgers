@@ -4,8 +4,15 @@
  */
 
 import type { Config } from 'jest';
-
 const config: Config = {
+  preset: 'ts-jest',
+  moduleNameMapper: {
+    '^@api$': '<rootDir>/src/utils/burger-api'
+  },
+
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  roots: ['<rootDir>/src'],
+  testMatch: ['**/?(*.)+(spec|test).[tj]s?(x)'],
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
@@ -194,7 +201,6 @@ const config: Config = {
 
   // Whether to use watchman for file crawling
   // watchman: true,
-  preset: 'ts-jest'
 };
 
 export default config;

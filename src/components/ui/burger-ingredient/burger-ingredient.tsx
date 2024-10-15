@@ -13,7 +13,7 @@ import { useDispatch } from '../../../services/store';
 import {
   addIngredient,
   addBun
-} from '../../../services/reducers/ConstructorReducer';
+} from '../../../services/slices/ConstructorSlice';
 import { TConstructorIngredient } from '@utils-types';
 
 export const BurgerIngredientUI: FC<TBurgerIngredientUIProps> = memo(

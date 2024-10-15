@@ -6,19 +6,9 @@ import {
   useDispatch as dispatchHook,
   useSelector as selectorHook
 } from 'react-redux';
-import ConstructorReducer from './reducers/ConstructorReducer';
-import FeedSlice from './reducers/FeedSlice';
-import UserSlice from './reducers/UserSlice';
-import OrderSlice from './reducers/OrderSlice';
 
 const store = configureStore({
-  reducer: {
-    root: RootReducer,
-    constructorData: ConstructorReducer,
-    feed: FeedSlice,
-    user: UserSlice,
-    order: OrderSlice
-  },
+  reducer: RootReducer,
   devTools: process.env.NODE_ENV !== 'production'
 });
 

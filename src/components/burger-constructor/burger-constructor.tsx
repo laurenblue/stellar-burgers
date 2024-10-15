@@ -2,7 +2,7 @@ import { FC, useMemo } from 'react';
 import { BurgerConstructorUI } from '@ui';
 import { useSelector } from '../../services/store';
 import { useDispatch } from '../../services/store';
-import { closeModal, createOrder } from '../../services/reducers/OrderSlice';
+import { closeModal, createOrder } from '../../services/slices/OrderSlice';
 import { useNavigate } from 'react-router-dom';
 import { getCookie } from '../../utils/cookie';
 
